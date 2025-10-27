@@ -1,8 +1,40 @@
 # tbcluster-basic-snp
 
+The tbcluster-basic-snp is an R script for clustering tb genomic data. The input file is joint vcf (multiple samples) file. 
 
-# Libraries
+# Software 
 
+The script requires minimal effort -  user just have to install the required packages, specify the path for joint vcf file and select the cutoff value for clustering. 
+
+# How it works 
+
+1. Taken all samples into account, variable sites are extracted. 
+2. The samples are compared in a pairs for each analysed variant. For example, considering one variant site (v1) and two samples (x1 and x2), if sample x1 have different genotype in the v1 than sample x2 then the genetic distance between these two samples will be increased by 1. This is repeated for all samples and variant sites and the result is stored in snp distance matrix. 
+3. A graph is computed containing nodes (samples) and edges (snp distance).
+4. The graph is visualized.
+
+
+# Integration with other pipelines
+
+For smooth analysis of multiple samples, tbcluster-basic-snp can be used in combination with nextflow pipelines. 
+The joint vcf output from snpplet (https://github.com/CENMIG/snpplet) or other pipelines can be used as input from  tbcluster-basic-snp.
+
+
+
+# Packages
+
+Install from CRAN
+```
+install.packages(c(
+  "vcfR",
+  "igraph",
+  "ggraph",
+  "ggplot2",
+  "RColorBrewer"
+))
+
+```
+Load packages 
 ```
 library(vcfR)
 library(igraph)
