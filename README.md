@@ -1,8 +1,8 @@
 # tbcluster-basic-snp
 
-# ----------------------------
+
 # Libraries
-# ----------------------------
+
 
 library(vcfR)
 library(igraph)
@@ -10,9 +10,9 @@ library(ggraph)
 library(ggplot2)
 library(RColorBrewer)
 
-# ----------------------------
+
 # 1️⃣ Read VCF
-# ----------------------------
+
 
 
 Read the joint vcf file - specify file location.
@@ -22,9 +22,9 @@ vcf_r <- read.vcfR(vcf_file)
 
 ```
 
-# ----------------------------
+
 # 2️⃣ Filter variants and samples with too much missing data
-# ----------------------------
+
 geno_mat <- extract.gt(vcf_r, element="GT")  # rows = variants, cols = samples
 
 # Filter variants: keep if <= 20% missing
@@ -37,14 +37,13 @@ sample_na_frac <- apply(geno_mat, 2, function(x) mean(is.na(x) | x == "." | x ==
 keep_samples <- sample_na_frac <= 0.2
 geno_mat <- geno_mat[, keep_samples]
 
-# ----------------------------
 # 3️⃣ Convert genotypes to integers 
-# ----------------------------
+
 geno_num <- apply(geno_mat, 2, function(x) as.numeric(x))
 
-# ----------------------------
+
 # 4️⃣ Pairwise SNP distance ignoring NAs
-# ----------------------------
+
 pairwise_snp <- function(x, y) {
   valid <- !is.na(x) & !is.na(y)
   if(sum(valid) == 0) return(NA)
@@ -63,15 +62,15 @@ for(i in 1:n_sam) {
   }
 }
 
-# ----------------------------
+
 # 5️⃣ Prepare matrix for clustering
-# ----------------------------
+
 snp_mat_for_graph <- snp_mat
 snp_mat_for_graph[is.na(snp_mat_for_graph)] <- 10000  # disconnected
 
-# ----------------------------
+
 # 6️⃣ 12-SNP cutoff clustering using igraph
-# ----------------------------
+
 
 
 cutoff <- 12
@@ -82,9 +81,9 @@ cluster_table <- data.frame(Sample=names(clusters), Cluster=clusters)
 table(clusters)
 head(cluster_table)
 
-# ----------------------------
+
 # 7️⃣ Visualization using ggraph
-# ----------------------------
+
 n_clusters <- max(clusters)
 cluster_colors <- brewer.pal(min(n_clusters,12), "Set3")
 V(g)$cluster <- clusters
