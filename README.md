@@ -16,7 +16,7 @@ library(RColorBrewer)
 Read the joint vcf file - specify file location!
 
 ```
-vcf_file <- "D:/Bioinformatics/Thailand_TB_Data/L2.2.M3_HAP1-2/snpplet/results/joint_called/filtered_vcf/joint_filtered.vcf.gz 
+vcf_file <- "D:/specify/your/path/.vcf.gz"
 vcf_r <- read.vcfR(vcf_file)
 
 ```
