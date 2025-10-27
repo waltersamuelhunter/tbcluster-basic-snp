@@ -79,7 +79,9 @@ snp_mat_for_graph <- snp_mat
 snp_mat_for_graph[is.na(snp_mat_for_graph)] <- 10000  # disconnected
 ```
 
-# 6️⃣ 12-SNP cutoff clustering using igraph
+# 6️⃣ 12-SNP cutoff clustering using igraph 
+
+You can adjust the cutoff value, to change clustering parameters.
 
 ```
 cutoff <- 12
@@ -93,6 +95,9 @@ head(cluster_table)
 ```
 
 # 7️⃣ Visualization using ggraph
+
+You may play with different colour palletes by changing the value of scale_color_brewer(palette="Set3") inside ggraph 
+
 
 ```
 n_clusters <- max(clusters)
