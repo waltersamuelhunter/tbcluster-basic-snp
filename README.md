@@ -1,6 +1,6 @@
 # tbcluster-basic-snp
 
-The tbcluster-basic-snp is an R script for clustering tb genomic data. The input file is joint vcf (multiple samples) file. 
+The tbcluster-basic-snp is an R script for clustering Mtb genomic data. The input file is joint vcf (multiple samples) file. 
 
 # Software 
 
@@ -10,7 +10,7 @@ The script requires minimal effort -  user just have to install the required pac
 
 1. Taken all samples into account, variable sites are extracted. 
 2. The samples are compared in a pairs for each analysed variant. For example, considering one variant site (v1) and two samples (x1 and x2), if sample x1 have different genotype in the v1 than sample x2 then the genetic distance between these two samples will be increased by 1. This is repeated for all samples and variant sites and the result is stored in snp distance matrix. 
-3. A graph is computed containing nodes (samples) and edges (snp distance).
+3. A graph is computed containing nodes (samples) and edges (same clusters). Edges are only drawn between clusters defined by the cutoff value (like 5 or 12 SNPs)
 4. The graph is visualized.
 
 
@@ -19,7 +19,10 @@ The script requires minimal effort -  user just have to install the required pac
 For smooth analysis of multiple samples, tbcluster-basic-snp can be used in combination with nextflow pipelines. 
 The joint vcf output from snpplet (https://github.com/CENMIG/snpplet) or other pipelines can be used as input from  tbcluster-basic-snp.
 
+# Limitations 
 
+Clustering TB cases based on SNP pairwise distance alone is known to be limited method, especially in high burden countries, due to various factors. Nevertheless, this method alone is useful for getting basic understanding of transmission in a geographical location and formulating hypothesis for public health interventions.
+Also, the SNP approach can be extended to include various metadata like drug resistance, lineage, occupation etc. The script will be updated to include this options soon. 
 
 # Packages
 
@@ -116,7 +119,7 @@ snp_mat_for_graph[is.na(snp_mat_for_graph)] <- 10000  # disconnected
 You can adjust the cutoff value, to change clustering parameters.
 
 ```
-cutoff <- 12
+cutoff <= 12
 g <- graph.adjacency(snp_mat_for_graph <= cutoff, mode="undirected", diag=FALSE)
 clusters <- components(g)$membership
 
