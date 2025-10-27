@@ -80,7 +80,7 @@ snp_mat_for_graph[is.na(snp_mat_for_graph)] <- 10000  # disconnected
 # 6️⃣ 12-SNP cutoff clustering using igraph - 
 # You can adjust the cutoff value, to change clustering parameters.
 
-cutoff <- 12
+cutoff <= 12
 g <- graph.adjacency(snp_mat_for_graph <= cutoff, mode="undirected", diag=FALSE)
 clusters <- components(g)$membership
 
