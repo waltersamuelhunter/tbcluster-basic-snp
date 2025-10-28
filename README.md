@@ -32,15 +32,24 @@ The connected samples can be assummed to be part of same transmission cluster.
 
 # Packages
 
-Install from CRAN
+Install from CRAN:
 ```
 install.packages(c(
   "vcfR",
   "igraph",
   "ggraph",
   "ggplot2",
-  "RColorBrewer"
-))
+  "RColorBrewer",
+  "tidygraph",
+  "ggmap",
+  "scales",
+  "readxl",
+  "devtools"
+  ))
+```
+Install from github:
+```
+devtools::install_github("JamesStimson/transcluster", build_vignettes = TRUE)
 
 ```
 Load packages 
@@ -50,7 +59,13 @@ library(igraph)
 library(ggraph)
 library(ggplot2)
 library(RColorBrewer)
+library(tidygraph)
+library(ggmap)
+library(scales)
+library(readxl)
+
 ```
+
 
 # 1️⃣ Read VCF
 
@@ -60,6 +75,7 @@ Read the joint vcf file - specify file location!
 vcf_file <- "D:/specify/your/path/.vcf.gz"
 vcf_r <- read.vcfR(vcf_file)
 head(vcr_r)
+metadata <- read_excel("", sheet = "")
 ```
 
 # 2️⃣ Filter variants and samples with too much missing data
@@ -202,7 +218,7 @@ ggraph(g, layout = "fr") +
   ggtitle(paste("All TB samples (SNP cutoff:", cutoff, ")")) +
   theme_void()
 
-meta <- metadata_l22m3
+meta <- metadata
 meta <- meta[match(V(g)$name, meta$sample_name), ]  # align rows
 
 # Add metadata as vertex attributes
