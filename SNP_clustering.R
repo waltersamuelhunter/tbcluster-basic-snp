@@ -39,6 +39,7 @@ Read the joint vcf file - specify file location!
 vcf_file <- "D:/specify/your/path/.vcf.gz"
 vcf_r <- read.vcfR(vcf_file)
 head(vcr_r)
+metadata <- read_excel("", sheet = "")
 ```
 
 # 2️⃣ Filter variants and samples with too much missing data
@@ -181,7 +182,7 @@ ggraph(g, layout = "fr") +
   ggtitle(paste("All TB samples (SNP cutoff:", cutoff, ")")) +
   theme_void()
 
-meta <- metadata_l22m3
+meta <- metadata
 meta <- meta[match(V(g)$name, meta$sample_name), ]  # align rows
 
 # Add metadata as vertex attributes
