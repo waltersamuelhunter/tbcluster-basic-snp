@@ -136,7 +136,7 @@ You may play with different colour palletes by changing the value of scale_color
 
 ```
 n_clusters <- max(clusters)
-cluster_colors <- brewer.pal(min(n_clusters,12), "Set4")
+cluster_colors <- brewer.pal(min(n_clusters,12), "Set3")
 V(g)$cluster <- clusters
 V(g)$color <- cluster_colors[clusters]
 
@@ -178,6 +178,5 @@ ggraph(g, layout = "fr") +
                      name = "Clusters with edges") +
   ggtitle(paste("TB clusters with", cutoff, "SNP cutoff")) +
   theme_void()
-
 
 ```
