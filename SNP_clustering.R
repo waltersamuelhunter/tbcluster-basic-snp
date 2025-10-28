@@ -25,10 +25,6 @@ vcf_r <- read.vcfR(vcf_file)
 head(vcf_r)
 
 
-chrom <- create.chromR(vcf_r)
-plot(chrom)
-
-
 # 2️⃣ Filter variants and samples with too much missing data
 
 geno_mat <- extract.gt(vcf_r, element="GT")  # rows = variants, cols = samples
