@@ -24,6 +24,12 @@ The joint vcf output from snpplet (https://github.com/CENMIG/snpplet) or other p
 Clustering TB cases based on SNP pairwise distance alone is known to be limited method, especially in high burden countries, due to various factors. Nevertheless, this method alone is useful for getting basic understanding of transmission in a geographical location and formulating hypothesis for public health interventions.
 Also, the SNP approach can be extended to include various metadata like drug resistance, lineage, occupation etc. The script will be updated to include this options soon. 
 
+# How to interpret
+
+Nodes - samples 
+Edges are drawn between samples (nodes), only if the snp distance between samples is less or equal to 12 SNPs. 
+The connected samples can be assummed to be part of same transmission cluster.
+
 # Packages
 
 Install from CRAN
