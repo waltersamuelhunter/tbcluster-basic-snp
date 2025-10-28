@@ -136,16 +136,48 @@ You may play with different colour palletes by changing the value of scale_color
 
 ```
 n_clusters <- max(clusters)
-cluster_colors <- brewer.pal(min(n_clusters,12), "Set3")
+cluster_colors <- brewer.pal(min(n_clusters,12), "Set4")
 V(g)$cluster <- clusters
 V(g)$color <- cluster_colors[clusters]
 
 set.seed(123)
-ggraph(g, layout="fr") +
-  geom_edge_link(color="gray50") +
-  geom_node_point(aes(color=factor(cluster)), size=5) +
-  theme_void() +
-  scale_color_brewer(palette="Set3") +
-  ggtitle(paste("TB clusters with", cutoff, "SNP cutoff"))
+library(tidygraph)
+library(igraph)
+library(ggraph)
+library(RColorBrewer)
+
+# Suppose you already have:
+# g <- your graph
+# clusters <- your clustering vector
+# cutoff <- your cutoff value
+
+# Assign clusters
+V(g)$cluster <- clusters
+
+# Identify nodes that have edges (degree > 0)
+has_edges <- degree(g) > 0
+
+# Identify which clusters actually have edges
+clusters_with_edges <- unique(V(g)$cluster[has_edges])
+
+# Assign colors only to those clusters
+n_clusters <- length(clusters_with_edges)
+cluster_colors <- brewer.pal(min(n_clusters, 12), "Set3")
+
+# Map cluster colors
+V(g)$color <- "grey80"  # default color for isolated nodes
+color_map <- setNames(cluster_colors, clusters_with_edges)
+V(g)$color[has_edges] <- color_map[as.character(V(g)$cluster[has_edges])]
+
+# Plot
+set.seed(123)
+ggraph(g, layout = "fr") +
+  geom_edge_link(color = "gray60", alpha = 0.8) +
+  geom_node_point(aes(color = factor(cluster)), size = 4, show.legend = TRUE) +
+  scale_color_manual(values = color_map,
+                     name = "Clusters with edges") +
+  ggtitle(paste("TB clusters with", cutoff, "SNP cutoff")) +
+  theme_void()
+
 
 ```
